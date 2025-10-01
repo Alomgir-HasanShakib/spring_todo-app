@@ -29,4 +29,9 @@ public class TodoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(todoService.createNewStudent(addTodoRequestDto));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<TodoDto> updateTodo(@PathVariable Long id, @RequestBody AddTodoRequestDto addTodoRequestDto){
+        return ResponseEntity.ok(todoService.updateStudent(id,addTodoRequestDto));
+    }
+
 }

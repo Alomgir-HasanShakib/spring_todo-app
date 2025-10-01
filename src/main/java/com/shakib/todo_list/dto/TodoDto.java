@@ -12,5 +12,5 @@ public class TodoDto {
     private Long id;
     private String title;
     private String description;
-    private boolean isComplete;
+    private Boolean isComplete;
 }

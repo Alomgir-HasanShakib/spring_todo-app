@@ -14,6 +14,6 @@ public class AddTodoRequestDto {
 
     @NotBlank(message = "Description is required.")
     private String description;
-    private boolean isComplete;
+    private Boolean isComplete;
 
 }

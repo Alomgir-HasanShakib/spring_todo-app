@@ -34,4 +34,12 @@ public class TodoServiceImplement implements TodoService {
         TodoEntity todo = todoRepository.save(newTodo);
         return modelMapper.map(todo, TodoDto.class);
     }
+
+    @Override
+    public TodoDto updateStudent(Long id, AddTodoRequestDto addTodoRequestDto) {
+        TodoEntity todo = todoRepository.findById(id).orElseThrow(()->new IllegalArgumentException("Todo not found in this id :" +id));
+        modelMapper.map(addTodoRequestDto,todo);
+        todo= todoRepository.save(todo);
+        return modelMapper.map(todo, TodoDto.class);
+    }
 }

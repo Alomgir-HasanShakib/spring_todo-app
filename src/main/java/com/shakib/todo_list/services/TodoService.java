@@ -10,4 +10,6 @@ public interface TodoService {
     List<TodoDto> getAllTodos();
 
     TodoDto createNewStudent(@Valid AddTodoRequestDto addTodoRequestDto);
+
+    TodoDto updateStudent(Long id, AddTodoRequestDto addTodoRequestDto);
 }
