@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -29,17 +30,39 @@ public class TodoServiceImplement implements TodoService {
     }
 
     @Override
-    public TodoDto createNewStudent(AddTodoRequestDto addTodoRequestDto) {
+    public TodoDto updateTodo(Long id, AddTodoRequestDto addTodoRequestDto) {
+        TodoEntity todo = todoRepository.findById(id).orElseThrow(()->new IllegalArgumentException("Todo not found in this id :" +id));
+        modelMapper.map(addTodoRequestDto,todo);
+        todo= todoRepository.save(todo);
+        return modelMapper.map(todo, TodoDto.class);
+    }
+
+    @Override
+    public TodoDto createNewTodo(AddTodoRequestDto addTodoRequestDto) {
         TodoEntity newTodo = modelMapper.map(addTodoRequestDto, TodoEntity.class);
         TodoEntity todo = todoRepository.save(newTodo);
         return modelMapper.map(todo, TodoDto.class);
     }
 
     @Override
-    public TodoDto updateStudent(Long id, AddTodoRequestDto addTodoRequestDto) {
-        TodoEntity todo = todoRepository.findById(id).orElseThrow(()->new IllegalArgumentException("Todo not found in this id :" +id));
-        modelMapper.map(addTodoRequestDto,todo);
-        todo= todoRepository.save(todo);
-        return modelMapper.map(todo, TodoDto.class);
+    public TodoDto updateSpecificTodoField(Long id, Map<String, Object> updates) {
+        TodoEntity todo = todoRepository.findById(id).orElseThrow(()->new IllegalArgumentException("Todo not found in this id: "+ id));
+        updates.forEach((field,value)->{
+            switch (field){
+                case "title":
+                    todo.setTitle((String) value);
+                    break;
+                case "description":
+                    todo.setDescription((String) value);
+                    break;
+                case "isComplete":
+                    todo.setIsComplete((Boolean) value);
+                    break;
+                default: throw new IllegalArgumentException("Field is not supported!");
+            }
+        });
+        TodoEntity saveTodo = todoRepository.save(todo);
+        return  modelMapper.map(saveTodo, TodoDto.class);
     }
+
 }

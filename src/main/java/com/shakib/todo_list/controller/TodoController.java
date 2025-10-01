@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,12 +27,17 @@ public class TodoController {
 
     @PostMapping
     public ResponseEntity<TodoDto> createTodo(@RequestBody @Valid AddTodoRequestDto addTodoRequestDto){
-        return ResponseEntity.status(HttpStatus.CREATED).body(todoService.createNewStudent(addTodoRequestDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(todoService.createNewTodo(addTodoRequestDto));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<TodoDto> updateTodo(@PathVariable Long id, @RequestBody AddTodoRequestDto addTodoRequestDto){
-        return ResponseEntity.ok(todoService.updateStudent(id,addTodoRequestDto));
+        return ResponseEntity.ok(todoService.updateTodo(id,addTodoRequestDto));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<TodoDto> updateSpecificTodoField(@PathVariable Long id, @RequestBody Map<String, Object> updates){
+        return ResponseEntity.ok(todoService.updateSpecificTodoField(id,updates));
     }
 
 }

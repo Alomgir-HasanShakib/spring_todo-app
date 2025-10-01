@@ -5,11 +5,14 @@ import com.shakib.todo_list.dto.TodoDto;
 import jakarta.validation.Valid;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TodoService {
     List<TodoDto> getAllTodos();
 
-    TodoDto createNewStudent(@Valid AddTodoRequestDto addTodoRequestDto);
+    TodoDto updateTodo(Long id, AddTodoRequestDto addTodoRequestDto);
 
-    TodoDto updateStudent(Long id, AddTodoRequestDto addTodoRequestDto);
+    TodoDto createNewTodo(@Valid AddTodoRequestDto addTodoRequestDto);
+
+    TodoDto updateSpecificTodoField(Long id, Map<String, Object> updates);
 }
